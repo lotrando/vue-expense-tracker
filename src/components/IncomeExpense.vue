@@ -12,16 +12,16 @@
 </template>
 
 <script setup>
-  defineProps({
-    incomes: {
-      type: Number,
-      required: true
-    },
-    expenses: {
-      type: Number,
-      required: true
-    }
-  });
+defineProps({
+  incomes: {
+    type: Number,
+    required: true,
+  },
+  expenses: {
+    type: Number,
+    required: true,
+  },
+})
 </script>
 
 <style scoped></style>

@@ -2,7 +2,6 @@
   <h2>Expense Tracker</h2>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped></style>

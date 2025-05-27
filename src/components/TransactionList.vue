@@ -1,18 +1,18 @@
 <template>
-  <h3>Transactions history</h3>
+  <h3>Historie transakcí</h3>
   <PerfectScrollbar>
     <ul id="list" class="list">
       <li v-for="transaction in transactions" :key="transaction.id" :class="transaction.amount < 0 ? 'minus' : 'plus'">
-        <!-- Text -->
+
         <span contenteditable="true" @blur="updateText(transaction, $event)" @keyup.enter="$event.target.blur()"
           class="editable-text">
           {{ transaction.text }}
         </span>
 
-        <!-- Amount -->
         <span contenteditable="true" @blur="updateAmount(transaction, $event)" @keyup.enter="$event.target.blur()"
           class="editable-amount">
           {{ transaction.amount }}
+          Kč
         </span>
 
         <button @click="deleteTransaction(transaction.id)" class="delete-btn">

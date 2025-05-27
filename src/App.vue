@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <h1>Expense Tracker</h1>
+      <h1>Peněženka</h1>
       <div class="header-actions">
         <ExportButton :transactions="transactions" />
         <button @click="toggleTheme" class="theme-toggle">
@@ -31,7 +31,8 @@
     <PageBalance :total="+total" />
     <IncomeExpense :incomes="+incomes" :expenses="+expenses" />
     <SearchFilter @search="handleSearch" @filter="handleFilter" />
-    <TransactionList :transactions="transactions" @transaction-deleted="handleTransactionDeleted" />
+    <TransactionList :transactions="transactions" @transaction-deleted="handleTransactionDeleted"
+      @transaction-updated="handleTransactionUpdated" />
     <AddTransaction @transaction-added="handleNewTransaction" />
   </div>
 </template>
@@ -43,9 +44,8 @@
   import TransactionList from './components/TransactionList.vue'
   import AddTransaction from './components/AddTransaction.vue'
   import ExportButton from './components/ExportButton.vue'
-  import { ref, computed } from 'vue'
-  import { onMounted } from 'vue'
   import { useToast } from 'vue-toastification'
+  import { ref, computed, onMounted, watch } from 'vue'
 
   // Toast notification
   const toast = useToast()
@@ -62,10 +62,22 @@
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme) {
       isDark.value = savedTheme === 'dark'
-      document.body.classList.toggle('dark-theme', isDark.value)
+    } else {
+      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
     }
+    applyTheme()
   })
 
+  watch(isDark, () => {
+    applyTheme()
+    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+  })
+
+  const applyTheme = () => {
+    document.documentElement.classList.toggle('dark', isDark.value)
+  }
+
+  // Search
   const handleSearch = (query) => {
     console.log('Hledám:', query)
   }
@@ -122,6 +134,16 @@
     saveTransactionsToLocalStorage()
     toast.success('Transaction deleted successfully')
   }
+
+  // Handle if transaction updated
+  const handleTransactionUpdated = (updatedTransaction) => {
+    transactions.value = transactions.value.map((transaction) =>
+      transaction.id === updatedTransaction.id ? updatedTransaction : transaction
+    );
+    saveTransactionsToLocalStorage();
+    toast.success('Transaction updated successfully');
+  }
+
 </script>
 
 <style scoped>

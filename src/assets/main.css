@@ -142,32 +142,50 @@ input:focus {
   margin: 10px 0;
 }
 
-.list li.plus {
-  border-right: 5px solid #2ecc71;
-}
-
 .list li.minus {
   border-right: 5px solid #dd230e;
+  transition: border-right-width 0.3s ease;
 }
 
-.delete-btn {
-  cursor: pointer;
-  background-color: #dd230e;
-  border: 0;
-  color: #fff;
-  font-size: 20px;
-  line-height: 20px;
-  padding: 6px 6px;
+.list li.plus {
+  border-right: 5px solid #2ecc71;
+  transition: border-right-width 0.3s ease;
+}
+
+.list li.minus:hover,
+.list li.plus:hover {
+  border-right-width: 40px;
+}
+
+.list li.minus:hover span,
+.list li.plus:hover span {
+  transform: translateX(-35px);
+  transition: transform 0.3s ease;
+}
+
+.list li.minus .delete-btn,
+.list li.plus .delete-btn {
   position: absolute;
   top: 50%;
-  left: 0;
-  transform: translate(-100%, -50%);
+  right: -2px;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 16px;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  transition: opacity 0.3s ease;
+  width: 35px;
+  height: 100%;
+  cursor: pointer;
 }
 
-.list li:hover .delete-btn {
+.list li.minus:hover .delete-btn,
+.list li.plus:hover .delete-btn {
   opacity: 1;
 }
+
+span {
+  transition: transform 0.3s ease;
+}
+
